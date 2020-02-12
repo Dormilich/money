@@ -1,0 +1,19 @@
+---
+- hosts: all
+  become: true
+  vars:
+    timezone: Europe/Berlin
+  pre_tasks:
+    - name: Update APT package manager repositories cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 28800
+    - name: Upgrade installed packages
+      apt:
+        upgrade: dist
+    - name: Cleanup from previously failed runs
+      file:
+        path: /home/vagrant/money/ansible/setup.retry
+        state: absent
+  roles:
+    - role: php

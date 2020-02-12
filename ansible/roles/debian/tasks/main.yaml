@@ -1,0 +1,8 @@
+---
+- name: Install debian packages
+  become: true
+  apt:
+    name:
+      - unzip
+      - zip
+    state: latest
