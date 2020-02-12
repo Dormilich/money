@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: true
+  vars:
+    timezone: Europe/Berlin
+  pre_tasks:
+    - name: Cleanup from previously failed runs
+      file:
+        path: /home/vagrant/money/ansible/composer.retry
+        state: absent
+  roles:
+    - role: composer

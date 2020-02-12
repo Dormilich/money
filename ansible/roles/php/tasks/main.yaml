@@ -1,0 +1,16 @@
+---
+- name: Install PHP packages
+  apt:
+    name:
+      - php-cli
+      - php-mbstring
+      - php-xdebug
+      - php-xml
+    state: latest
+
+- name: Set timezone for PHP-CLI
+  ini_file:
+    path: /etc/php/{{ php_version }}/cli/php.ini
+    section: Date
+    option: date.timezone
+    value: "{{ timezone }}"
