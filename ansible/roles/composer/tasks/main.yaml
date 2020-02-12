@@ -1,0 +1,12 @@
+---
+- name: Install Composer
+  apt:
+    name: composer
+    state: latest
+
+- name: Install Composer dependencies
+  become: false
+  composer:
+    command: install
+    no_dev: false
+    working_dir: "{{ project_dir }}"
