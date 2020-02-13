@@ -2,10 +2,12 @@
 - name: Install PHP packages
   apt:
     name:
-      - php-cli
-      - php-mbstring
-      - php-xdebug
-      - php-xml
+      - php{{ php_version }}-cli
+      - php{{ php_version }}-intl
+      - php{{ php_version }}-json
+      - php{{ php_version }}-mbstring
+      - php{{ php_version }}-xdebug
+      - php{{ php_version }}-xml
     state: latest
 
 - name: Set timezone for PHP-CLI

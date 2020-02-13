@@ -1,2 +1,4 @@
-/vendor/
+/.phpintel/
 /.vagrant/
+/generator/
+/vendor/
