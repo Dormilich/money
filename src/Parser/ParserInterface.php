@@ -11,7 +11,8 @@ use Dormilich\Money\Exception\UnexpectedValueException;
 interface ParserInterface
 {
     /**
-     * Parses input into a BigNumber instance.
+     * Parses input into a BigNumber instance. Must throw an exception if the
+     * input is not acceptable.
      * 
      * @param mixed $value 
      * @return BigDecimal
