@@ -5,8 +5,8 @@ namespace Dormilich\Money;
 use const STR_PAD_LEFT;
 use const STR_PAD_RIGHT;
 
-use Dormilich\Money\Exception\UnexpectedValueException;
 use Dormilich\Money\Parser\MoneyParser;
+use Dormilich\Money\Parser\ParserInterface;
 
 /**
  * This class represents monatary currencies with debit & credit functionality.
@@ -14,13 +14,26 @@ use Dormilich\Money\Parser\MoneyParser;
 abstract class Money extends Unit
 {
     /**
-     * @param string $value Numeric currency value.
-     * @return self
-     * @throws UnexpectedValueException Invalid value format.
+     * @inheritDoc
      */
-    public function __construct(string $value)
+    public function getValue() : string
     {
-        $parser = new MoneyParser($this->getPrecision());
-        $this->units = $parser->parse($value);
+        return (string) $this->units->toScale($this->getPrecision());
+    }
+
+    /**
+     * If no explicit parser is used, default to a fraction-restricted decimal
+     * number parser.
+     * 
+     * @param ParserInterface|null $parser 
+     * @return ParserInterface
+     */
+    protected function getParser(ParserInterface $parser = null) : ParserInterface
+    {
+        if (! $parser) {
+            $parser = new MoneyParser($this->getPrecision());
+        }
+
+        return $parser;
     }
 }

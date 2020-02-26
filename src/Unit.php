@@ -3,6 +3,7 @@
 namespace Dormilich\Money;
 
 use Brick\Math\BigDecimal;
+use Dormilich\Money\Parser\ParserInterface;
 use Dormilich\Money\Parser\UnitParser;
 
 /**
@@ -18,13 +19,13 @@ abstract class Unit implements Currency
 
     /**
      * @param string $value Numeric currency value.
+     * @param ParserInterface $parser|null Custom number parser implementation.
      * @return self
      * @throws UnexpectedValueException Invalid value format.
      */
-    public function __construct($value)
+    public function __construct($value, ParserInterface $parser = null)
     {
-        $parser = new UnitParser();
-        $this->units = $parser->parse($value);
+        $this->units = $this->getParser($parser)->parse($value);
     }
 
     /**
@@ -33,5 +34,20 @@ abstract class Unit implements Currency
     public function getValue() : string
     {
         return (string) $this->units;
+    }
+
+    /**
+     * If no explicit parser is used, default to a general decimal number parser.
+     * 
+     * @param ParserInterface|null $parser 
+     * @return ParserInterface
+     */
+    protected function getParser(ParserInterface $parser = null) : ParserInterface
+    {
+        if (! $parser) {
+            $parser = new UnitParser();
+        }
+
+        return $parser;
     }
 }
