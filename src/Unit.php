@@ -3,7 +3,7 @@
 namespace Dormilich\Money;
 
 use Brick\Math\BigDecimal;
-use Brick\Math\Exception\MathException;
+use Dormilich\Money\Parser\UnitParser;
 
 /**
  * Unit of Measure. Does not support debit & credit functionality.
@@ -16,13 +16,15 @@ abstract class Unit implements Currency
      */
     protected $units;
 
+    /**
+     * @param string $value Numeric currency value.
+     * @return self
+     * @throws UnexpectedValueException Invalid value format.
+     */
     public function __construct($value)
     {
-        try {
-            $this->units = BigDecimal::of(rtrim($value, '0'));
-        } catch (MathException $e) {
-            throw new UnexpectedValueException($e->getMessage(), $value, $this->getCurrency());
-        }
+        $parser = new UnitParser();
+        $this->units = $parser->parse($value);
     }
 
     /**

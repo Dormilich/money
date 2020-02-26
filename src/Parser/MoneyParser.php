@@ -1,14 +1,11 @@
 <?php
 
-namespace Dormilich\Money;
+namespace Dormilich\Money\Parser;
 
 use Brick\Math\BigDecimal;
 use Dormilich\Money\Exception\UnexpectedValueException;
 
-/**
- * Parse a float string into an integer object.
- */
-class Parser
+class MoneyParser implements ParserInterface
 {
     /**
      * @var integer
@@ -21,11 +18,7 @@ class Parser
     }
 
     /**
-     * Parses input into a BigNumber instance.
-     * 
-     * @param mixed $value 
-     * @return BigDecimal
-     * @throws UnexpectedValueException
+     * @inheritDoc
      */
     public function parse($value) : BigDecimal
     {
