@@ -15,10 +15,14 @@ class SetupMoneyTest extends TestCase
     {
         return [
             [53, '53.00'],
-            [53.2, '53.20'],
-            [53.20, '53.20'],
-            ['53.20', '53.20'],
             [-53, '-53.00'],
+            [53.2, '53.20'],
+            [-53.2, '-53.20'],
+            [53.20, '53.20'],
+            [-53.20, '-53.20'],
+            ['53.20', '53.20'],
+            ['+53.20', '53.20'],
+            ['-53.20', '-53.20'],
         ];
     }
 
@@ -46,7 +50,7 @@ class SetupMoneyTest extends TestCase
     public function testCreateMoneyObjectWithInvalidAmountFails()
     {
         $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('Invalid number format for currency EUR.');
+        $this->expectExceptionMessage('Invalid number format encountered.');
 
         new EUR('53.195');
     }
