@@ -2,7 +2,9 @@
 - name: Install PHP packages
   apt:
     name:
+      - php{{ php_version }}-bcmath
       - php{{ php_version }}-cli
+      - php{{ php_version }}-gmp
       - php{{ php_version }}-intl
       - php{{ php_version }}-json
       - php{{ php_version }}-mbstring
