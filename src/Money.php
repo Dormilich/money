@@ -12,8 +12,14 @@ use Dormilich\Money\Exception\UnexpectedValueException;
  */
 abstract class Money extends Unit
 {
+    /**
+     * @param string $value Numeric currency value.
+     * @return self
+     * @throws UnexpectedValueException Invalid value format.
+     */
     public function __construct(string $value)
     {
+        $this->validate($value);
         $this->units = $this->parseValue($value);
     }
 
@@ -40,21 +46,32 @@ abstract class Money extends Unit
      * 
      * @param string $value 
      * @return integer
-     * @throws UnexpectedValueException
      */
     private function parseValue(string $value)
     {
-        if (! $this->validateValue($value)) {
-            $currency = $this->getCurrency();
-            $msg = 'Invalid number format for currency ' . $currency . '.';
-            throw new UnexpectedValueException($msg, $value, $currency);
-        }
-
         list($major, $minor) = explode('.', $value, 2) + [1 => ''];
 
         $minor = $this->patchFraction($minor);
 
         return (int) ($major . $minor);
+    }
+
+    /**
+     * Throw an exception if the currency value fails validation.
+     * 
+     * @param string $value 
+     * @return void
+     * @throws UnexpectedValueException
+     */
+    private function validate(string $value) : void
+    {
+        if ($this->validateValue($value)) {
+            return;
+        }
+
+        $currency = $this->getCurrency();
+        $msg = 'Invalid number format for currency ' . $currency . '.';
+        throw new UnexpectedValueException($msg, $value, $currency);
     }
 
     /**
