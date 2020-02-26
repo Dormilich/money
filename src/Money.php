@@ -25,9 +25,11 @@ abstract class Money extends Unit
         $precision = $this->getPrecision();
         $patched = $this->stringifyValue();
 
-        $value  = substr($patched, 0, -$precision);
-        $value .= '.';
-        $value .= substr($patched, -$precision);
+        $parts[] = substr($patched, 0, -$precision);
+        $parts[] = substr($patched, -$precision);
+
+        $parts = array_filter($parts, 'strlen');
+        $value = implode('.', $parts);
 
         return $value;
     }
@@ -48,7 +50,7 @@ abstract class Money extends Unit
             throw new UnexpectedValueException($msg, $value, $currency);
         }
 
-        list($major, $minor) = explode('.', $value, 2) + [1 => '0'];
+        list($major, $minor) = explode('.', $value, 2) + [1 => ''];
 
         $minor = $this->patchFraction($minor);
 

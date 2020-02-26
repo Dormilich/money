@@ -3,6 +3,7 @@
 use Dormilich\Money\Money;
 use Dormilich\Money\Exception\UnexpectedValueException;
 use Dormilich\Money\ISO4217\EUR;
+use Dormilich\Money\ISO4217\JPY;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,6 +18,7 @@ class SetupMoneyTest extends TestCase
             [53.2, '53.20'],
             [53.20, '53.20'],
             ['53.20', '53.20'],
+            [-53, '-53.00'],
         ];
     }
 
@@ -30,6 +32,15 @@ class SetupMoneyTest extends TestCase
         $this->assertInstanceOf(Money::class, $money);
         $this->assertSame('EUR', $money->getCurrency());
         $this->assertSame($out, $money->getValue());
+    }
+
+    public function testCreateMoneyObjectWithoutMinorUnit()
+    {
+        $money = new JPY(-5319);
+
+        $this->assertInstanceOf(Money::class, $money);
+        $this->assertSame('JPY', $money->getCurrency());
+        $this->assertSame('-5319', $money->getValue());
     }
 
     public function testCreateMoneyObjectWithInvalidAmountFails()
