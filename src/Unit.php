@@ -2,6 +2,9 @@
 
 namespace Dormilich\Money;
 
+use Brick\Math\BigDecimal;
+use Brick\Math\Exception\MathException;
+
 /**
  * Unit of Measure. Does not support debit & credit functionality.
  * This is used for Funds, precious metals, etc.
@@ -9,13 +12,17 @@ namespace Dormilich\Money;
 abstract class Unit implements Currency
 {
     /**
-     * @var integer|float
+     * @var BigDecimal
      */
     protected $units;
 
-    public function __construct(float $value)
+    public function __construct($value)
     {
-        $this->units = $value;
+        try {
+            $this->units = BigDecimal::of(rtrim($value, '0'));
+        } catch (MathException $e) {
+            throw new UnexpectedValueException($e->getMessage(), $value, $this->getCurrency());
+        }
     }
 
     /**
