@@ -2,12 +2,12 @@
 
 namespace Dormilich\Money\ISO4217;
 
-use Dormilich\Money\Unit;
+use Dormilich\Money\Money;
 
 /**
  * @link https://www.currency-iso.org (2018-08-29)
  */
-class XXX extends Unit
+class XXX extends Money
 {
     /**
      * Returns the 3-letter alphabetical currency code.

@@ -27,13 +27,6 @@ interface Currency
     public function getName() : string;
 
     /**
-     * Returns the 3-digit numerical currency code.
-     * 
-     * @return string
-     */
-    public function getCode() : string;
-
-    /**
      * Returns the number of digits after the decimal separator or NULL if no 
      * fixed precision applies.
      * 
