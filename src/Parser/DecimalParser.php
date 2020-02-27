@@ -3,9 +3,10 @@
 namespace Dormilich\Money\Parser;
 
 use Brick\Math\BigDecimal;
+use Brick\Math\Exception\MathException;
 use Dormilich\Money\Exception\UnexpectedValueException;
 
-class MoneyParser implements ParserInterface
+class DecimalParser implements ParserInterface
 {
     /**
      * @var integer
@@ -22,11 +23,17 @@ class MoneyParser implements ParserInterface
      */
     public function parse($value) : BigDecimal
     {
-        if ($this->validate($value)) {
-            return BigDecimal::of($value)->toScale($this->precision);
+        try {
+            $number = BigDecimal::of($value);
+        } catch (MathException $e) {
+            throw new UnexpectedValueException($e->getMessage(), $value, '');
         }
 
-        $msg = 'Invalid number format encountered.';
+        if ($this->validate((string) $number)) {
+            return $number->toScale($this->precision);
+        }
+
+        $msg = 'Invalid number of fractional digits encountered.';
         throw new UnexpectedValueException($msg, $value, '');
     }
 

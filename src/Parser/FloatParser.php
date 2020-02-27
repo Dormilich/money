@@ -10,7 +10,7 @@ use Dormilich\Money\Exception\UnexpectedValueException;
 /**
  * Parse a float string into an integer object.
  */
-class UnitParser implements ParserInterface
+class FloatParser implements ParserInterface
 {
     /**
      * @inheritDoc
@@ -28,12 +28,12 @@ class UnitParser implements ParserInterface
     /**
      * Remove trailing zeros on the fractional part, if any.
      * 
-     * @param string $value 
-     * @return string
+     * @param mixed $value 
+     * @return mixed
      */
     private function trim($value)
     {
-        if (strpos($value, '.') !== false) {
+        if (is_string($value) && strpos($value, '.') !== false) {
             $value = rtrim($value, '0');
             $value = rtrim($value, '.');
         }
