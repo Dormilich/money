@@ -2,6 +2,7 @@
 
 use Dormilich\Money\Money;
 use Dormilich\Money\Exception\InvalidCurrencyException;
+use Dormilich\Money\ISO4217\EUR;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -75,7 +76,10 @@ class CalculationTest extends TestCase
         $b = Money::EUR(42);
         $c = Money::EUR(52);
 
-        $this->assertTrue($a->add($b)->equals($c));
+        $s = $a->add($b);
+
+        $this->assertTrue($c->equals($s));
+        $this->assertInstanceOf(EUR::class, $s);
     }
 
     /**
@@ -88,6 +92,9 @@ class CalculationTest extends TestCase
         $b = Money::EUR(42);
         $c = Money::EUR(52);
 
-        $this->assertTrue($c->subtract($b)->equals($a));
+        $d = $c->subtract($b);
+
+        $this->assertTrue($a->equals($d));
+        $this->assertInstanceOf(EUR::class, $d);
     }
 }
